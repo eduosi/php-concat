@@ -53,82 +53,82 @@ Documentation
 -------------
 ```
 void Concat::setEnable(boolean $enable);
-	功能说明：设置是否启用文件合并
-	参数：boolean $enable 是否启用文件合并
-	返回值：无
+功能说明：设置是否启用文件合并
+参数：boolean $enable 是否启用文件合并
+返回值：无
 
 boolean Concat::getEnable();
-	功能说明：返回是否启用文件合并
-	参数说明：无
-	返回值：boolean 是否启用文件合并
+功能说明：返回是否启用文件合并
+参数说明：无
+返回值：boolean 是否启用文件合并
 
 void Concat::setPrefix(string $prefix);
-	功能说明：设置分割前缀
-	参数：string $prefix 分割前缀
-	返回值：无
+功能说明：设置分割前缀
+参数：string $prefix 分割前缀
+返回值：无
 
 string Concat::getPrefix();
-	功能说明：返回分割前缀
-	参数说明：无
-	返回值：string 分割前缀
+功能说明：返回分割前缀
+参数说明：无
+返回值：string 分割前缀
 
 void Concat::setDelimiter(string $delimiter);
-	功能说明：设置文件分隔符
-	参数：string $delimiter 文件分隔符
-	返回值：无
+功能说明：设置文件分隔符
+参数：string $delimiter 文件分隔符
+返回值：无
 
 string Concat::getDelimiter();
-	功能说明：返回文件分隔符
-	参数说明：无
-	返回值：string 文件分隔符
+功能说明：返回文件分隔符
+参数说明：无
+返回值：string 文件分隔符
 
 void Concat::setVersionPrefix(string $versionPrefix);
-	功能说明：设置文件版本前缀
-	参数：string $versionPrefix 文件版本前缀
-	返回值：无
+功能说明：设置文件版本前缀
+参数：string $versionPrefix 文件版本前缀
+返回值：无
 
 string Concat::getVersionPrefix();
-	功能说明：返回文件版本前缀
-	参数说明：无
-	返回值：string 文件版本前缀
+功能说明：返回文件版本前缀
+参数说明：无
+返回值：string 文件版本前缀
 
 void Concat::setVersion(string $version);
-	功能说明：设置文件版本
-	参数：string $version 文件版本
-	返回值：无
+功能说明：设置文件版本
+参数：string $version 文件版本
+返回值：无
 
 string Concat::getVersion();
-	功能说明：返回文件版本
-	参数说明：无
-	返回值：string 文件版本
+功能说明：返回文件版本
+参数说明：无
+返回值：string 文件版本
 
 void Concat::setMaxFiles(integer $maxFiles);
-	功能说明：设置最大合并文件数
-	参数：integer $maxFiles 最大合并文件数
-	返回值：无
+功能说明：设置最大合并文件数
+参数：integer $maxFiles 最大合并文件数
+返回值：无
 
 integer Concat::getMaxFiles();
-	功能说明：返回最大合并文件数
-	参数说明：无
-	返回值：integer 最大合并文件数
+功能说明：返回最大合并文件数
+参数说明：无
+返回值：integer 最大合并文件数
 
 string Concat::css(string $baseUrl, mixed ...);
-	功能说明：css 文件合并
-	参数说明：string $baseUrl 基 URL
-				mixed 需要合并的文件名称
-	返回值：string 合并后的 style 标签
+功能说明：css 文件合并
+参数说明：string $baseUrl 基 URL
+		mixed 需要合并的文件名称
+返回值：string 合并后的 style 标签
 
 string Concat::javascript(string $baseUrl, mixed ...)
-	功能说明：js 文件合并
-	参数说明：string $baseUrl 基 URL
-				mixed 需要合并的文件名称
-	返回值：string 合并后的 script 标签
+功能说明：js 文件合并
+参数说明：string $baseUrl 基 URL
+		mixed 需要合并的文件名称
+返回值：string 合并后的 script 标签
 
 string Concat::js(string $baseUrl, mixed ...)
-	功能说明：Concat::javascript 别名
-	参数说明：string $baseUrl 基 URL
-				mixed 需要合并的文件名称
-	返回值：string 合并后的 script 标签
+功能说明：Concat::javascript 别名
+参数说明：string $baseUrl 基 URL
+		mixed 需要合并的文件名称
+返回值：string 合并后的 script 标签
 ```
 
 ```
