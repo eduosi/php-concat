@@ -1,0 +1,17 @@
+// $Id$
+// vim:ft=javascript
+
+ARG_ENABLE("concat", "Enable Concat Support", "no");
+ARG_ENABLE("concat-debug", "Enable Concat Debug Support", "no");
+
+if(PHP_CONCAT != "no"){
+	EXTENSION("concat", "buession.c");
+
+	AC_DEFINE("HAVE_CONCAT", 1, "Concat Support");
+
+	if(PHP_CONCAT_DEBUG == "yes"){
+		AC_DEFINE("HAVE_CONCAT_DEBUG", 1, "Enable Concat Debug Support");
+	}else{
+		AC_DEFINE("HAVE_CONCAT_DEBUG", 0, "Disable Concat Debug Support");
+	}
+}

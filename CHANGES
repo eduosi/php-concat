@@ -1,0 +1,5 @@
+Changes 0.0.1 Alpha
+												18 Jun 2014
+	*) The first public version.
+	*) Feature: 实现了支持 css 文件合并
+	*) Feature: 实现了支持 javascript 文件合并
