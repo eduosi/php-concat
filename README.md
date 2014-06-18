@@ -43,10 +43,10 @@ extension=concat.so			; *nux
 ```
 
 ```
-concat.enable boolean default value is false。是否启用文件合并
-concat.prefix string default value is "??"。
-concat.delimiter string default value is ","。文件与文件之间的分隔符。
-concat.max_files integer default value is 0. 最大合并文件数，0 为不限制。
+concat.enable = off boolean default value is false。是否启用文件合并
+concat.prefix = "??" string default value is "??"。
+concat.delimiter = "," string default value is ","。文件与文件之间的分隔符。
+concat.max_files = 0 integer default value is 0. 最大合并文件数，0 为不限制。
 ```
 
 Documentation
@@ -115,19 +115,19 @@ integer Concat::getMaxFiles();
 string Concat::css(string $baseUrl, mixed ...);
 功能说明：css 文件合并
 参数说明：string $baseUrl 基 URL
-		mixed 需要合并的文件名称
+		 mixed 需要合并的文件名称
 返回值：string 合并后的 style 标签
 
 string Concat::javascript(string $baseUrl, mixed ...)
 功能说明：js 文件合并
 参数说明：string $baseUrl 基 URL
-		mixed 需要合并的文件名称
+		 mixed 需要合并的文件名称
 返回值：string 合并后的 script 标签
 
 string Concat::js(string $baseUrl, mixed ...)
 功能说明：Concat::javascript 别名
 参数说明：string $baseUrl 基 URL
-		mixed 需要合并的文件名称
+		 mixed 需要合并的文件名称
 返回值：string 合并后的 script 标签
 ```
 
