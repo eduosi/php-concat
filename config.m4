@@ -17,21 +17,8 @@ dnl PHP_ARG_ENABLE(concat, whether to enable Concat support,
 dnl Make sure that the comment is aligned:
 dnl [  --enable-concat           enable Concat support])
 
-dnl PHP_ARG_ENABLE(concat-debug, 
-dnl [  --enable-concat-debug           enable Concat debug support, default no], 
-dnl [  AC_DEFINE(HAVE_CONCAT_DEBUG, 1, [Enable Concat Debug Support])  ], 
-dnl [  AC_DEFINE(HAVE_CONCAT_DEBUG, 0, [Disable Concat Debug Support])  ]
-dnl )
-
 PHP_ARG_ENABLE(concat, whether to enable concat support,
 	[  --enable-concat			enable concat support])
-
-AC_ARG_ENABLE(concat-debug,
-	[  --enable-concat-debug			enable concat debug support(default no)], [
-  		AC_DEFINE(HAVE_CONCAT_DEBUG, 1, [Enable Concat Debug Support])
-	], [
-  		AC_DEFINE(HAVE_CONCAT_DEBUG, 0, [Disable Concat Debug Support])
-	])
 
 if test "$PHP_CONCAT" != "no"; then
 	AC_MSG_CHECKING([PHP version])

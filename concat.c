@@ -306,7 +306,7 @@ static ZEND_METHOD(concat, css){
 		uint i = 0;
 		int size = arguments_count - 1;
 		char *baseUrl;
-		uint baseUrl_length;
+		size_t baseUrl_length;
 		uint end = CONCAT_G(enable) == FALSE||CONCAT_G(max_files) == 0 ? size : MIN(CONCAT_G(max_files), size);
 		zval ***args = arguments + 1;
 		smart_str str = {0};
@@ -366,7 +366,7 @@ static ZEND_METHOD(concat, javascript){
 		uint i = 0;
 		int size = arguments_count - 1;
 		char *baseUrl;
-		uint baseUrl_length;
+		size_t baseUrl_length;
 		uint end = CONCAT_G(enable) == FALSE||CONCAT_G(max_files) == 0 ? size : MIN(CONCAT_G(max_files), size);
 		zval ***args = arguments + 1;
 		smart_str str = {0};
@@ -535,10 +535,14 @@ ZEND_GINIT_FUNCTION(concat){
 
 /** {{{ ZEND_GSHUTDOWN_FUNCTION */
 ZEND_GSHUTDOWN_FUNCTION(concat){
-	CONCAT_CLEAN_STRING_G(prefix);
-	CONCAT_CLEAN_STRING_G(delimiter);
-	CONCAT_CLEAN_STRING_G(version_prefix);
-	CONCAT_CLEAN_STRING_G(version);
+	concat_free(concat_globals->prefix);
+	concat_globals->prefix_length = 0;
+	concat_free(concat_globals->delimiter);
+	concat_globals->delimiter_length = 0;
+	concat_free(concat_globals->version_prefix);
+	concat_globals->version_prefix_length = 0;
+	concat_free(concat_globals->version);
+	concat_globals->version_length = 0;
 
 #ifdef ZTS
 	ts_free_id(concat_globals_id);
