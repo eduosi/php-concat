@@ -43,10 +43,10 @@ extension=concat.so			; *nux
 ```
 
 ```
-concat.enable = off boolean default value is false。是否启用文件合并
-concat.prefix = "??" string default value is "??"。
-concat.delimiter = "," string default value is ","。文件与文件之间的分隔符。
-concat.max_files = 0 integer default value is 0. 最大合并文件数，0 为不限制。
+concat.enable = off 	boolean	default value is false. 是否启用文件合并
+concat.prefix = "??" 	string 	default value is "??". 	分割前缀。
+concat.delimiter = ","	string 	default value is ",". 	文件与文件之间的分隔符。
+concat.max_files = 0 	integer default value is 0. 	最大合并文件数，0 为不限制。
 ```
 
 Documentation
