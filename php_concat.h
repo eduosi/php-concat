@@ -42,6 +42,17 @@ extern zend_module_entry concat_module_entry;
 	#include "TSRM.h"
 #endif
 
+#ifndef NULL
+	#define NULL  ((void *) 0)
+#endif
+
+#ifndef TRUE
+	#define TRUE 1
+#endif
+#ifndef FALSE
+	#define FALSE 0
+#endif
+
 extern zend_class_entry *concat_ce;
 
 #define CONCAT_ME(method, arguments, flags)				ZEND_ME(concat, method, arguments, flags)

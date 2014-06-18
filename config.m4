@@ -23,8 +23,8 @@ dnl [  AC_DEFINE(HAVE_CONCAT_DEBUG, 1, [Enable Concat Debug Support])  ],
 dnl [  AC_DEFINE(HAVE_CONCAT_DEBUG, 0, [Disable Concat Debug Support])  ]
 dnl )
 
-PHP_ARG_ENABLE(concat, whether to enable buession support,
-	[  --enable-concat			enable buession support])
+PHP_ARG_ENABLE(concat, whether to enable concat support,
+	[  --enable-concat			enable concat support])
 
 AC_ARG_ENABLE(concat-debug,
 	[  --enable-concat-debug			enable concat debug support(default no)], [
