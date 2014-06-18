@@ -113,25 +113,23 @@ CONCAT_API char *concat_object_valueof(zval *data, size_t *result_length TSRMLS_
 	if(zend_parse_parameters(1 TSRMLS_CC, "l", &value) == SUCCESS){	\
 		smart_str str = {0};	\
 		smart_str_append_long(&str, value);	\
-		smart_str_free(&str);	\
-		zend_alter_ini_entry_ex("concat."#name, sizeof("concat."#name) - 1, str.c, str.len, PHP_INI_USER, PHP_INI_STAGE_RUNTIME, TRUE TSRMLS_CC);	\
+		smart_str_0(&str);	\
+		concat_alter_ini_entry(name, str.c, str.len);	\
 		smart_str_free(&str);	\
 	}	\
 }
 
 #define CONCAT_GETLONG_METHOD(name){	\
-	if(return_value_used){	\
-		RETURN_LONG(CONCAT_G(name));	\
-	}	\
+	RETURN_LONG(CONCAT_G(name));	\
 }
 
 #define CONCAT_SETBOOLEAN_METHOD(name){	\
 	zend_bool value;	\
 	if(zend_parse_parameters(1 TSRMLS_CC, "b", &value) == SUCCESS){	\
 		if(value == TRUE){	\
-			zend_alter_ini_entry_ex("concat."#name, sizeof("concat."#name) - 1, "on", 2, PHP_INI_USER, PHP_INI_STAGE_RUNTIME, TRUE TSRMLS_CC);	\
+			concat_alter_ini_entry(name, "on", 2);	\
 		}else{	\
-			zend_alter_ini_entry_ex("concat."#name, sizeof("concat."#name) - 1, "off", 3, PHP_INI_USER, PHP_INI_STAGE_RUNTIME, TRUE TSRMLS_CC);	\
+			concat_alter_ini_entry(name, "off", 3);	\
 		}	\
 	}	\
 }
@@ -139,6 +137,9 @@ CONCAT_API char *concat_object_valueof(zval *data, size_t *result_length TSRMLS_
 #define CONCAT_GETBOOLEAN_METHOD(name){	\
 	RETURN_BOOL(CONCAT_G(name));	\
 }
+
+#define concat_alter_ini_entry(name, value, value_length) \
+	zend_alter_ini_entry_ex("concat."#name, sizeof("concat."#name), value, value_length, PHP_INI_USER, PHP_INI_STAGE_RUNTIME, FALSE TSRMLS_CC)
 
 #define concat_free(v){	\
 	if(v){	\
@@ -214,7 +215,7 @@ ZEND_BEGIN_MODULE_GLOBALS(concat)
 	uint version_prefix_length;
 	char *version;
 	uint version_length;
-	int max_files;
+	long max_files;
 ZEND_END_MODULE_GLOBALS(concat)
 
 ZEND_EXTERN_MODULE_GLOBALS(concat)

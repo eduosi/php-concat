@@ -192,56 +192,15 @@ CONCAT_API char *concat_object_valueof(zval *data, size_t *result_length TSRMLS_
 	return estrndup("", 0);
 }
 
-static ZEND_INI_MH(OnUpdateEnable){
-	zend_bool *p;
-
-#ifndef ZTS
-	char *base = (char *) mh_arg2;
-#else
-	char *base = (char *) ts_resource(*((int *) mh_arg2));
-#endif
-
-	p = (zend_bool *) (base + (size_t) mh_arg1);
-
-	if(new_value_length == 2&&strcasecmp("on", new_value) == 0){
-		*p = TRUE;
-	}else if(new_value_length == 3&&strcasecmp("yes", new_value) == 0){
-		*p = TRUE;
-	}else if(new_value_length == 4&&strcasecmp("true", new_value) == 0){
-		*p = TRUE;
-	}else{
-		*p = (zend_bool) atoi(new_value);
-	}
-
-	CONCAT_G(enable) = *p;
-
-	return SUCCESS;
-}
-
-static ZEND_INI_MH(OnUpdatePrefix){
-	OnUpdateString(entry, new_value, new_value_length, mh_arg1, mh_arg2, mh_arg3, stage TSRMLS_CC);
-	return SUCCESS;
-}
-
-static ZEND_INI_MH(OnUpdateDelimiter){
-	OnUpdateString(entry, new_value, new_value_length, mh_arg1, mh_arg2, mh_arg3, stage TSRMLS_CC);
-	return SUCCESS;
-}
-
-static ZEND_INI_MH(OnUpdateMaxFiles){
-	OnUpdateLongGEZero(entry, new_value, new_value_length, mh_arg1, mh_arg2, mh_arg3, stage TSRMLS_CC);
-	return SUCCESS;
-}
-
 static void concat_destroy_globals(zend_concat_globals *concat_globals TSRMLS_DC){
 }
 
 /* {{{ ZEND_INI */
 ZEND_INI_BEGIN()
-	STD_ZEND_INI_ENTRY("concat.enable", "off", ZEND_INI_ALL, OnUpdateBool, enable, zend_concat_globals, concat_globals)
+	STD_ZEND_INI_BOOLEAN("concat.enable", "off", ZEND_INI_ALL, OnUpdateBool, enable, zend_concat_globals, concat_globals)
 	STD_ZEND_INI_ENTRY("concat.prefix", "??", ZEND_INI_ALL, OnUpdateStringUnempty, prefix, zend_concat_globals, concat_globals)
 	STD_ZEND_INI_ENTRY("concat.delimiter", ",", ZEND_INI_ALL, OnUpdateStringUnempty, delimiter, zend_concat_globals, concat_globals)
-	STD_ZEND_INI_ENTRY("concat.max_files", "0", ZEND_INI_ALL, OnUpdateLongGEZero, max_files, zend_concat_globals, concat_globals)
+	STD_ZEND_INI_ENTRY("concat.max_files", "0", ZEND_INI_ALL, OnUpdateLong, max_files, zend_concat_globals, concat_globals)
 ZEND_INI_END()
 /* }}} */
 
