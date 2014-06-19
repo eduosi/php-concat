@@ -193,10 +193,10 @@ CONCAT_API char *concat_object_valueof(zval *data, size_t *result_length TSRMLS_
 }
 
 static void concat_destroy_globals(TSRMLS_D){
-	CONCAT_CLEAN_STRING_G(prefix);
-	CONCAT_CLEAN_STRING_G(delimiter);
-	CONCAT_CLEAN_STRING_G(version_prefix);
-	CONCAT_CLEAN_STRING_G(version);
+	//CONCAT_CLEAN_STRING_G(prefix);
+	//CONCAT_CLEAN_STRING_G(delimiter);
+	//CONCAT_CLEAN_STRING_G(version_prefix);
+	//CONCAT_CLEAN_STRING_G(version);
 }
 
 /* {{{ ZEND_INI */
