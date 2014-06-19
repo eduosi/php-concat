@@ -27,7 +27,7 @@ Installation
 ```
 $ cd php-concat
 $ php_installed_path/bin/phpize
-$ ./configure --with-php-config=php_installed_path/bin/php-config --enable-concat-debug=1/0(可选，是否开启 DEBUG，默认未开启，正式环境不建议开启)
+$ ./configure --with-php-config=php_installed_path/bin/php-config [--enable-concat]
 $ make
 # make install
 ```
