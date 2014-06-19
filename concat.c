@@ -521,10 +521,10 @@ ZEND_MINFO_FUNCTION(concat){
 /** {{{ ZEND_GINIT_FUNCTION */
 ZEND_GINIT_FUNCTION(concat){
 	concat_globals->enable = FALSE;
-	concat_globals->prefix = estrndup("??", 2);
-	concat_globals->prefix_length = 2;
-	concat_globals->delimiter = estrndup(",", 1);
-	concat_globals->delimiter_length = 1;
+	concat_globals->prefix = NULL;
+	concat_globals->prefix_length = 0;
+	concat_globals->delimiter = NULL;
+	concat_globals->delimiter_length = 0;
 	concat_globals->version_prefix = NULL;
 	concat_globals->version_prefix_length = 0;
 	concat_globals->version = NULL;
