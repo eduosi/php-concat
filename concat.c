@@ -192,15 +192,19 @@ CONCAT_API char *concat_object_valueof(zval *data, size_t *result_length TSRMLS_
 	return estrndup("", 0);
 }
 
-static void concat_destroy_globals(zend_concat_globals *concat_globals TSRMLS_DC){
-	concat_free(concat_globals->prefix);
-	concat_globals->prefix_length = 0;
-	concat_free(concat_globals->delimiter);
-	concat_globals->delimiter_length = 0;
-	concat_free(concat_globals->version_prefix);
-	concat_globals->version_prefix_length = 0;
-	concat_free(concat_globals->version);
-	concat_globals->version_length = 0;
+static void concat_destroy_globals(TSRMLS_D){
+	CONCAT_CLEAN_STRING_G(prefix);
+	CONCAT_CLEAN_STRING_G(delimiter);
+	CONCAT_CLEAN_STRING_G(version_prefix);
+	CONCAT_CLEAN_STRING_G(version);
+	//concat_free(concat_globals->prefix);
+	//concat_globals->prefix_length = 0;
+	//concat_free(concat_globals->delimiter);
+	//concat_globals->delimiter_length = 0;
+	//concat_free(concat_globals->version_prefix);
+	//concat_globals->version_prefix_length = 0;
+	//concat_free(concat_globals->version);
+	//concat_globals->version_length = 0;
 }
 
 /* {{{ ZEND_INI */
@@ -503,7 +507,7 @@ ZEND_RSHUTDOWN_FUNCTION(concat){
 
 /** {{{ ZEND_MSHUTDOWN_FUNCTION */
 ZEND_MSHUTDOWN_FUNCTION(concat){
-	concat_destroy_globals(concat_globals TSRMLS_CC);
+	concat_destroy_globals(TSRMLS_C);
 
 	UNREGISTER_INI_ENTRIES();
 
