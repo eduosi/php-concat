@@ -557,12 +557,6 @@ ZEND_GSHUTDOWN_FUNCTION(concat){
 	concat_globals->version_prefix_length = 0;
 	concat_free(concat_globals->version);
 	concat_globals->version_length = 0;
-
-#ifdef ZTS
-	ts_free_id(concat_globals_id);
-#else
-	concat_destroy_globals(concat_globals TSRMLS_CC);
-#endif
 }
 /* }}} */
 

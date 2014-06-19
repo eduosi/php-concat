@@ -232,8 +232,7 @@ ZEND_END_MODULE_GLOBALS(concat)
 ZEND_EXTERN_MODULE_GLOBALS(concat)
 
 #define CONCAT_CLEAN_STRING_G(fields){	\
-	char *v = (char *) CONCAT_G(fields);	\
-	concat_free(v);	\
+	concat_free(CONCAT_G(fields));	\
 	CONCAT_G(fields##_length) = 0;	\
 }
 
