@@ -192,14 +192,69 @@ CONCAT_API char *concat_object_valueof(zval *data, size_t *result_length TSRMLS_
 	return estrndup("", 0);
 }
 
+CONCAT_API zend_bool concat_isBlank_ex(const char *str, uint str_length TSRMLS_DC){
+	if(str != NULL&&str_length != 0){
+		const char *p = str;
+		const char *end = str + str_length;
+
+		while(p < end){
+			if(memchr(" \t\r\n\013\014", *p++, sizeof(" \t\r\n\013\014") - 1) == NULL){
+				return FALSE;
+			}
+		}
+	}
+
+	return TRUE;
+}
+
 static void concat_destroy_globals(zend_concat_globals *concat_globals TSRMLS_DC){
+}
+
+static ZEND_INI_MH(OnUpdatePrefix){
+	zval *exception = NULL;
+
+	if(new_value == NULL|new_value_length == 0){
+		exception = zend_throw_error_exception(spl_ce_RuntimeException, "concat.prefix could not be empty", 0, E_CORE_WARNING TSRMLS_CC);
+		goto failure;
+	}
+
+	if(concat_isBlank_ex(new_value, new_value_length TSRMLS_CC) == TRUE){
+		exception = zend_throw_error_exception(spl_ce_RuntimeException, "concat.prefix could not be blank", 0, E_CORE_WARNING TSRMLS_CC);
+		goto failure;
+	}
+
+	return OnUpdateStringUnempty(entry, new_value, new_value_length, mh_arg1, mh_arg2, mh_arg3, stage TSRMLS_CC);
+
+	failure:
+		concat_zval_ptr_dtor(exception);
+		return FAILURE;
+}
+
+static ZEND_INI_MH(OnUpdateDelimiter){
+	zval *exception = NULL;
+
+	if(new_value == NULL|new_value_length == 0){
+		exception = zend_throw_error_exception(spl_ce_RuntimeException, "concat.delimiter could not be empty", 0, E_CORE_WARNING TSRMLS_CC);
+		goto failure;
+	}
+
+	if(concat_isBlank_ex(new_value, new_value_length TSRMLS_CC) == TRUE){
+		exception = zend_throw_error_exception(spl_ce_RuntimeException, "concat.delimiter could not be blank", 0, E_CORE_WARNING TSRMLS_CC);
+		goto failure;
+	}
+
+	return OnUpdateStringUnempty(entry, new_value, new_value_length, mh_arg1, mh_arg2, mh_arg3, stage TSRMLS_CC);
+
+	failure:
+		concat_zval_ptr_dtor(exception);
+		return FAILURE;
 }
 
 /* {{{ ZEND_INI */
 ZEND_INI_BEGIN()
 	STD_ZEND_INI_BOOLEAN("concat.enable", "off", ZEND_INI_ALL, OnUpdateBool, enable, zend_concat_globals, concat_globals)
-	STD_ZEND_INI_ENTRY("concat.prefix", "??", ZEND_INI_ALL, OnUpdateStringUnempty, prefix, zend_concat_globals, concat_globals)
-	STD_ZEND_INI_ENTRY("concat.delimiter", ",", ZEND_INI_ALL, OnUpdateStringUnempty, delimiter, zend_concat_globals, concat_globals)
+	STD_ZEND_INI_ENTRY("concat.prefix", "??", ZEND_INI_ALL, OnUpdatePrefix, prefix, zend_concat_globals, concat_globals)
+	STD_ZEND_INI_ENTRY("concat.delimiter", ",", ZEND_INI_ALL, OnUpdateDelimiter, delimiter, zend_concat_globals, concat_globals)
 	STD_ZEND_INI_ENTRY("concat.max_files", "0", ZEND_INI_ALL, OnUpdateLong, max_files, zend_concat_globals, concat_globals)
 ZEND_INI_END()
 /* }}} */

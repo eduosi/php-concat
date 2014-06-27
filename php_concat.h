@@ -76,6 +76,8 @@ CONCAT_API int concat_convert_object_to_string_ex(zend_class_entry *ce, zval *ob
 
 CONCAT_API char *concat_object_valueof(zval *data, size_t *result_length TSRMLS_DC);
 
+CONCAT_API zend_bool concat_isBlank_ex(const char *str, uint str_length TSRMLS_DC);
+
 #define CONCAT_APPEND_VERSION(result)	\
 	do{	\
 		if(CONCAT_G(version_prefix)&&CONCAT_G(version_prefix_length) > 0){	\
