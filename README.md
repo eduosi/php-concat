@@ -43,6 +43,7 @@ extension=concat.so			; *nux
 ```
 
 ```
+[Concat]
 concat.enable = off 	boolean	default value is false. 是否启用文件合并
 concat.prefix = "??" 	string 	default value is "??". 	分割前缀。
 concat.delimiter = ","	string 	default value is ",". 	文件与文件之间的分隔符。

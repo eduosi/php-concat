@@ -93,7 +93,7 @@ CONCAT_API char *concat_object_valueof(zval *data, size_t *result_length TSRMLS_
 	for(; j < max; j++){	\
 		char *filename = NULL;	\
 		size_t filename_length = 0;	\
-		if(j > 0&&CONCAT_G(delimiter)&&CONCAT_G(delimiter_length)){	\
+		if(j > 0&&CONCAT_G(delimiter)&&CONCAT_G(delimiter_length) > 0){	\
 			smart_str_appendl(result, CONCAT_G(delimiter), CONCAT_G(delimiter_length));	\
 		}	\
 		filename = concat_object_valueof(*(files[j]), &filename_length TSRMLS_CC);	\
