@@ -213,7 +213,7 @@ static void concat_destroy_globals(zend_concat_globals *concat_globals TSRMLS_DC
 static ZEND_INI_MH(OnUpdatePrefix){
 	zval *exception = NULL;
 
-	if(new_value == NULL|new_value_length == 0){
+	if(new_value == NULL||new_value_length == 0){
 		exception = zend_throw_error_exception(spl_ce_RuntimeException, "concat.prefix could not be empty", 0, E_CORE_WARNING TSRMLS_CC);
 		goto failure;
 	}
@@ -223,6 +223,7 @@ static ZEND_INI_MH(OnUpdatePrefix){
 		goto failure;
 	}
 
+	CONCAT_G(prefix_length) = new_value_length;
 	return OnUpdateStringUnempty(entry, new_value, new_value_length, mh_arg1, mh_arg2, mh_arg3, stage TSRMLS_CC);
 
 	failure:
@@ -233,7 +234,7 @@ static ZEND_INI_MH(OnUpdatePrefix){
 static ZEND_INI_MH(OnUpdateDelimiter){
 	zval *exception = NULL;
 
-	if(new_value == NULL|new_value_length == 0){
+	if(new_value == NULL||new_value_length == 0){
 		exception = zend_throw_error_exception(spl_ce_RuntimeException, "concat.delimiter could not be empty", 0, E_CORE_WARNING TSRMLS_CC);
 		goto failure;
 	}
@@ -243,6 +244,7 @@ static ZEND_INI_MH(OnUpdateDelimiter){
 		goto failure;
 	}
 
+	CONCAT_G(delimiter_length) = new_value_length;
 	return OnUpdateStringUnempty(entry, new_value, new_value_length, mh_arg1, mh_arg2, mh_arg3, stage TSRMLS_CC);
 
 	failure:
@@ -590,15 +592,13 @@ ZEND_GINIT_FUNCTION(concat){
 
 /** {{{ ZEND_GSHUTDOWN_FUNCTION */
 ZEND_GSHUTDOWN_FUNCTION(concat){
-	concat_free(concat_globals->version_prefix);
-	concat_globals->version_prefix_length = 0;
-	concat_free(concat_globals->version);
-	concat_globals->version_length = 0;
+	CONCAT_CLEAN_STRING_G(version_prefix);
+	CONCAT_CLEAN_STRING_G(version);
 
 #ifdef ZTS
-	ts_free_id(concat_globals_id);
+	//ts_free_id(concat_globals_id);
 #else
-	concat_destroy_globals(concat_globals TSRMLS_CC);
+	//concat_destroy_globals(concat_globals TSRMLS_CC);
 #endif
 }
 /* }}} */
