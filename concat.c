@@ -555,7 +555,7 @@ ZEND_MSHUTDOWN_FUNCTION(concat){
 #ifdef ZTS
 	ts_free_id(concat_globals_id);
 #else
-	ZEND_MODULE_GLOBALS_DTOR_N(concat)(concat_globals TSRMLS_CC);
+	ZEND_MODULE_GLOBALS_DTOR_N(concat)(&concat_globals TSRMLS_CC);
 #endif
 
 	return SUCCESS;
