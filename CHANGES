@@ -1,3 +1,8 @@
+Changes 0.1.0 Alpha
+												23 Jul 2014
+	*) Fix: concat_globals 初始化&&内存释放 BUG
+	*) Fix: reload/restart Web Server 时，无法重载/重启 BUG
+
 Changes 0.0.1
 												27 Jun 2014
 	*) Fix: reload/restart Web Server 时，段错误造成无法重启

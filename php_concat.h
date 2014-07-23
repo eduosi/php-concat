@@ -62,13 +62,13 @@ extern zend_class_entry *concat_ce;
 
 #define CONCAT 					"Concat"
 #define CONCAT_MAJOR_VERSION	0
-#define CONCAT_MINOR_VERSION	0
-#define CONCAT_RELEASE_VERSION	2
+#define CONCAT_MINOR_VERSION	1
+#define CONCAT_RELEASE_VERSION	0
 #define CONCAT_EXTRA_VERSION	"Alpha"
 #define CONCAT_VERSION 			ZEND_TOSTR(CONCAT_MAJOR_VERSION)"."ZEND_TOSTR(CONCAT_MINOR_VERSION)"."ZEND_TOSTR(CONCAT_RELEASE_VERSION)
 #define CONCAT_BUILD			""
 #define CONCAT_API_VERSION 		ZEND_TOSTR(PHP_API_VERSION)
-#define CONCAT_REVISION_ID		"$Revision: a64f8304bca2cdac160425047cb96e6640b929b9 $"	// sha1("Major.Minor.Release Extra Build")
+#define CONCAT_REVISION_ID		"$Revision: 48b18dd181ff550f71a6b09ffda5b2546ca7d9a4 $"	// sha1("Major.Minor.Release Extra Build")
 #define CONCAT_SUPPORT_URL 		"http://www.buession.com/"
 #define CONCAT_SUPPORT_EMAIL 	"webmaster@buession.com"
 
