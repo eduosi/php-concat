@@ -63,12 +63,12 @@ extern zend_class_entry *concat_ce;
 #define CONCAT 					"Concat"
 #define CONCAT_MAJOR_VERSION	0
 #define CONCAT_MINOR_VERSION	0
-#define CONCAT_RELEASE_VERSION	1
-#define CONCAT_EXTRA_VERSION	"Beta"
+#define CONCAT_RELEASE_VERSION	2
+#define CONCAT_EXTRA_VERSION	"Alpha"
 #define CONCAT_VERSION 			ZEND_TOSTR(CONCAT_MAJOR_VERSION)"."ZEND_TOSTR(CONCAT_MINOR_VERSION)"."ZEND_TOSTR(CONCAT_RELEASE_VERSION)
 #define CONCAT_BUILD			""
 #define CONCAT_API_VERSION 		ZEND_TOSTR(PHP_API_VERSION)
-#define CONCAT_REVISION_ID		"$Revision: 0b27c14aaa5df4a946406eff0655cf78bb2b219f $"	// sha1("Major.Minor.Release Extra Build")
+#define CONCAT_REVISION_ID		"$Revision: a64f8304bca2cdac160425047cb96e6640b929b9 $"	// sha1("Major.Minor.Release Extra Build")
 #define CONCAT_SUPPORT_URL 		"http://www.buession.com/"
 #define CONCAT_SUPPORT_EMAIL 	"webmaster@buession.com"
 
@@ -111,7 +111,7 @@ CONCAT_API zend_bool concat_isBlank_ex(const char *str, uint str_length TSRMLS_D
 	char *value;	\
 	uint value_length;	\
 	if(zend_parse_parameters(1 TSRMLS_CC, "s", &value, &value_length) == SUCCESS){	\
-		zend_alter_ini_entry_ex("concat."#name, sizeof("concat."#name) - 1, value, value_length, PHP_INI_USER, PHP_INI_STAGE_RUNTIME, TRUE TSRMLS_CC);	\
+		concat_alter_ini_entry(name, value, value_length);	\
 	}	\
 }
 

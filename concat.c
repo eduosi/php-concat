@@ -213,7 +213,7 @@ static void concat_destroy_globals(zend_concat_globals *concat_globals TSRMLS_DC
 static ZEND_INI_MH(OnUpdatePrefix){
 	zval *exception = NULL;
 
-	if(new_value == NULL|new_value_length == 0){
+	if(new_value == NULL||new_value_length == 0){
 		exception = zend_throw_error_exception(spl_ce_RuntimeException, "concat.prefix could not be empty", 0, E_CORE_WARNING TSRMLS_CC);
 		goto failure;
 	}
@@ -522,6 +522,7 @@ ZEND_MINIT_FUNCTION(concat){
 	zend_declare_class_constant_stringl(concat_ce, "API_VERSION", 11, ZEND_STRL(CONCAT_API_VERSION) TSRMLS_CC);
 	zend_declare_class_constant_stringl(concat_ce, "REVISION_ID", 11, ZEND_STRL(CONCAT_REVISION_ID) TSRMLS_CC);
 
+	ZEND_INIT_MODULE_GLOBALS(soap, ZEND_MODULE_GLOBALS_CTOR_N(concat), ZEND_MODULE_GLOBALS_DTOR_N(concat));
 	REGISTER_INI_ENTRIES();
 
 	return SUCCESS;
@@ -626,11 +627,7 @@ zend_module_entry concat_module_entry = {
 	ZEND_MODULE_DEACTIVATE_N(concat),
 	ZEND_MINFO(concat),
 	CONCAT_VERSION,
-	ZEND_MODULE_GLOBALS(concat),
-	ZEND_GINIT(concat),
-	ZEND_GSHUTDOWN(concat),
-	NULL,
-	STANDARD_MODULE_PROPERTIES_EX
+	STANDARD_MODULE_PROPERTIES
 };
 /* }}} */
 

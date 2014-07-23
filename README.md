@@ -133,13 +133,27 @@ string Concat::js(string $baseUrl, mixed ...)
 ```
 
 ```
-ini_set("concat.enable", on);
+ini_set("concat.enable", "on");
 echo Concat::css("http://www.example.com/css/", "a.css", "b/a.css");
-// http://www.example.com/css/??a.css,b/a.css
+
+// <link href="http://www.example.com/css/??a.css,b/a.css" rel="stylesheet" type="text/css" />
 
 Concat::setVersionPrefix("version");
 Concat::setVersion("0.1");
 
 echo Concat::javascript("http://www.example.com/js/", "jquery.js", "jquery.ui.js");
-// http://www.example.com/js/??jquery.js,jquery.ui.js?version=0.1
+// <script src="http://www.example.com/js/??jquery.js,jquery.ui.js?version=0.1" type="text/javascript"></script>
+
+
+ini_set("concat.enable", "off");
+echo Concat::css("http://www.example.com/css/", "a.css", "b/a.css");
+
+// <link href="http://www.example.com/css/a.css" rel="stylesheet" type="text/css" /><link href="http://www.example.com/css/b.css" rel="stylesheet" type="text/css" />
+
+Concat::setVersionPrefix("version");
+Concat::setVersion("0.1");
+
+echo Concat::javascript("http://www.example.com/js/", "jquery.js", "jquery.ui.js");
+
+// <script src="http://www.example.com/js/jquery.js?version=0.1" type="text/javascript"></script><script src="http://www.example.com/js/jquery.ui.js?version=0.1" type="text/javascript"></script>
 ```
