@@ -207,9 +207,6 @@ CONCAT_API zend_bool concat_isBlank_ex(const char *str, uint str_length TSRMLS_D
 	return TRUE;
 }
 
-static void concat_destroy_globals(zend_concat_globals *concat_globals TSRMLS_DC){
-}
-
 static ZEND_INI_MH(OnUpdatePrefix){
 	zval *exception = NULL;
 
@@ -223,6 +220,7 @@ static ZEND_INI_MH(OnUpdatePrefix){
 		goto failure;
 	}
 
+	CONCAT_G(prefix_length) = new_value_length;
 	return OnUpdateStringUnempty(entry, new_value, new_value_length, mh_arg1, mh_arg2, mh_arg3, stage TSRMLS_CC);
 
 	failure:
@@ -233,7 +231,7 @@ static ZEND_INI_MH(OnUpdatePrefix){
 static ZEND_INI_MH(OnUpdateDelimiter){
 	zval *exception = NULL;
 
-	if(new_value == NULL|new_value_length == 0){
+	if(new_value == NULL||new_value_length == 0){
 		exception = zend_throw_error_exception(spl_ce_RuntimeException, "concat.delimiter could not be empty", 0, E_CORE_WARNING TSRMLS_CC);
 		goto failure;
 	}
@@ -243,6 +241,7 @@ static ZEND_INI_MH(OnUpdateDelimiter){
 		goto failure;
 	}
 
+	CONCAT_G(delimiter_length) = new_value_length;
 	return OnUpdateStringUnempty(entry, new_value, new_value_length, mh_arg1, mh_arg2, mh_arg3, stage TSRMLS_CC);
 
 	failure:
@@ -522,7 +521,7 @@ ZEND_MINIT_FUNCTION(concat){
 	zend_declare_class_constant_stringl(concat_ce, "API_VERSION", 11, ZEND_STRL(CONCAT_API_VERSION) TSRMLS_CC);
 	zend_declare_class_constant_stringl(concat_ce, "REVISION_ID", 11, ZEND_STRL(CONCAT_REVISION_ID) TSRMLS_CC);
 
-	ZEND_INIT_MODULE_GLOBALS(soap, ZEND_MODULE_GLOBALS_CTOR_N(concat), ZEND_MODULE_GLOBALS_DTOR_N(concat));
+	ZEND_INIT_MODULE_GLOBALS(concat, ZEND_MODULE_GLOBALS_CTOR_N(concat), ZEND_MODULE_GLOBALS_DTOR_N(concat));
 	REGISTER_INI_ENTRIES();
 
 	return SUCCESS;
@@ -552,6 +551,12 @@ ZEND_RSHUTDOWN_FUNCTION(concat){
 /** {{{ ZEND_MSHUTDOWN_FUNCTION */
 ZEND_MSHUTDOWN_FUNCTION(concat){
 	UNREGISTER_INI_ENTRIES();
+
+#ifdef ZTS
+	ts_free_id(concat_globals_id);
+#else
+	ZEND_MODULE_GLOBALS_DTOR_N(concat)(concat_globals TSRMLS_CC);
+#endif
 
 	return SUCCESS;
 }
@@ -595,12 +600,6 @@ ZEND_GSHUTDOWN_FUNCTION(concat){
 	concat_globals->version_prefix_length = 0;
 	concat_free(concat_globals->version);
 	concat_globals->version_length = 0;
-
-#ifdef ZTS
-	ts_free_id(concat_globals_id);
-#else
-	concat_destroy_globals(concat_globals TSRMLS_CC);
-#endif
 }
 /* }}} */
 
