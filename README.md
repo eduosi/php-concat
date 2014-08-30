@@ -10,7 +10,7 @@ php-concat 是 PHP 支持文件合并模块，主要用于合并前端代码减�
 
 Requirement
 ------------
-PHP Version >= 5.33
+PHP Version >= 5.3.0
 
 
 Download

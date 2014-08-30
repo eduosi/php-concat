@@ -1,3 +1,8 @@
+Changes 0.1.0 Beta
+												31 Aug 2014
+	*) Fix: 修改 PHP 最低版本要求说明
+	*) Change: 规范代码
+
 Changes 0.1.0 Alpha
 												23 Jul 2014
 	*) Fix: concat_globals 初始化&&内存释放 BUG
