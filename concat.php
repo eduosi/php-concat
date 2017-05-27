@@ -1,7 +1,7 @@
 <?php
 	class Concat {
 
-		private static $enable = FALSE;
+		private static $enable = NULL;
 
 		private static $prefix = "??";
 
