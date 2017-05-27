@@ -179,18 +179,18 @@ echo Concat::javascript("http://www.example.com/js/", "jquery.js", "jquery.ui.js
  * concat('admin/aa/cheThird/','bb.css','bb.js','asd.js'); //js css可混用加载 函数内部已经分开处理
  * 输出：
  * <link href="//g.esc.cn/admin/aa/cheThird/??bb.css" rel="stylesheet" type="text/css" />
- * <script href="//g.esc.cn/admin/aa/cheThird/??bb.js,asd.js" type="text/javascript"></script>
+ * <script src="//g.esc.cn/admin/aa/cheThird/??bb.js,asd.js" type="text/javascript"></script>
  *
  *
  *
  * 独立配置调用：
- * Concat::setEnable(0);
- * Concat::setVersion(1);
- * Concat::setVersionPrefix('50');
+ * Concat_utils::setEnable(0);
+ * Concat_utils::setVersion(1);
+ * Concat_utils::setVersionPrefix('50');
  * concat('admin/aa/cheThird/','bb.css','aa/bb.js','asd.js');
  * 输出：
- * <link href="//g.esc.cn/admin/aa/cheThird/bb.css?50=1" rel="stylesheet" type="text/css" />
- * <script href="//g.esc.cn/admin/aa/cheThird/aa/bb.js?50=1" type="text/javascript"></script><script href="//g.esc.cn/admin/aa/cheThird/asd.js?50=1" type="text/javascript"></script>
+ * <link src="//g.esc.cn/admin/aa/cheThird/bb.css?50=1" rel="stylesheet" type="text/css" />
+ * <script src="//g.esc.cn/admin/aa/cheThird/aa/bb.js?50=1" type="text/javascript"></script><script href="//g.esc.cn/admin/aa/cheThird/asd.js?50=1" type="text/javascript"></script>
  *
  *
  * 参数说明：
@@ -203,13 +203,16 @@ echo Concat::javascript("http://www.example.com/js/", "jquery.js", "jquery.ui.js
  *
  */
 
+
 if (!function_exists('concat')) {
-    require_once APPPATH . 'libraries' . DIRECTORY_SEPARATOR . 'Concat.php';
+    require_once APPPATH . 'libraries' . DIRECTORY_SEPARATOR . 'Concat_utils.php';
     function concat($concatParams)
     {
         $styleUrl  = str_replace(array('https:','http:'),'',STYLE_URL);
-        $enable = Concat::getEnable();
-        if(!isset($enable) ) Concat::setEnable(true);
+        $styleUrl = rtrim($styleUrl,'/');
+        $styleUrl .= '/';
+        $enable = Concat_utils::getEnable();
+        if(!isset($enable) && 'production' === ENVIRONMENT) Concat_utils::setEnable(true);
         $args = func_get_args();
         $args[0] = ltrim($args[0],'/') ;
         if(strpos($args[0],ltrim($styleUrl,'//')) !== false){//传入的参数1 存在当前设置的 STYLE_URL 域名 则删除协议前缀 使用相对协议
@@ -238,11 +241,11 @@ if (!function_exists('concat')) {
         }
         if (!empty($css)) {
             array_splice($css,0,0,$args[0]);
-            echo call_user_func_array("Concat::css", $css), "\n";
+            echo call_user_func_array("Concat_utils::css", $css), "\n";
         }
         if (!empty($js)) {
             array_splice($js,0,0,$args[0]);
-            echo call_user_func_array("Concat::js", $js), "\n";
+            echo call_user_func_array("Concat_utils::js", $js), "\n";
         }
     };
 }
