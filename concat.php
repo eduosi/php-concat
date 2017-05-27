@@ -62,6 +62,8 @@
 		}
 
 		public static function css($baseUrl){
+            $baseUrl = rtrim($baseUrl,'/');
+            $baseUrl .= '/';
 			$args = func_get_args();
 			$size = func_num_args() - 1;
 			$end = self::$enable == false||self::$maxFiles == 0 ? $size : min(self::$maxFiles, $size);
@@ -96,6 +98,8 @@
 		}
 
 		public static function javascript($baseUrl){
+            $baseUrl = rtrim($baseUrl,'/');
+            $baseUrl .= '/';
 			$args = func_get_args();
 			$size = func_num_args() - 1;
 			$end = self::$enable == false||self::$maxFiles == 0 ? $size : min(self::$maxFiles, $size);
