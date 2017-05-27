@@ -162,7 +162,7 @@ echo Concat::javascript("http://www.example.com/js/", "jquery.js", "jquery.ui.js
 后续
 ---
 此项目毕竟[@eduosi](https://github.com/eduosi)是3年前写的,折腾的可能性非常低。遂fork出来顺便添加个帮助函数
-`注意` 代码不能直接使用。需要修改require_once的载入路径。测试环境：CI3框架
+`注意` 代码不能直接使用。需要修改require_once的载入路径。测试环境：CI3框架；需要修改类名 否则会报500错误
 
 ```php
 
