@@ -1,7 +1,7 @@
 <?php
 	class Concat {
 
-		private static $enable = FALSE;
+		private static $enable = NULL;
 
 		private static $prefix = "??";
 
@@ -62,6 +62,8 @@
 		}
 
 		public static function css($baseUrl){
+            $baseUrl = rtrim($baseUrl,'/');
+            $baseUrl .= '/';
 			$args = func_get_args();
 			$size = func_num_args() - 1;
 			$end = self::$enable == false||self::$maxFiles == 0 ? $size : min(self::$maxFiles, $size);
@@ -96,6 +98,8 @@
 		}
 
 		public static function javascript($baseUrl){
+            $baseUrl = rtrim($baseUrl,'/');
+            $baseUrl .= '/';
 			$args = func_get_args();
 			$size = func_num_args() - 1;
 			$end = self::$enable == false||self::$maxFiles == 0 ? $size : min(self::$maxFiles, $size);
@@ -104,7 +108,7 @@
 			$url = "";
 
 			if(self::$enable == true){
-				$url = '<script href="'.$baseUrl.'??';
+				$url = '<script src="'.$baseUrl.'??';
 
 				foreach($args as $j=>$arg){
 					if($i >= $end){
@@ -121,7 +125,7 @@
 			}else{
 				foreach($args as $j=>$arg){
 					if($j > 0){
-						$url .= '<script href="'.$baseUrl.$arg.$version.'" type="text/javascript"></script>';
+						$url .= '<script src="'.$baseUrl.$arg.$version.'" type="text/javascript"></script>';
 					}
 				}
 			}
@@ -131,7 +135,7 @@
 
 		public static function js($baseUrl){
 			$args = func_get_args();
-			return call_user_func_array(array(self, "javascript"), $args);
+			return call_user_func_array(array(__CLASS__, "javascript"), $args);
 		}
 
 	}
