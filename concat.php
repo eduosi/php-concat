@@ -108,7 +108,7 @@
 			$url = "";
 
 			if(self::$enable == true){
-				$url = '<script href="'.$baseUrl.'??';
+				$url = '<script src="'.$baseUrl.'??';
 
 				foreach($args as $j=>$arg){
 					if($i >= $end){
