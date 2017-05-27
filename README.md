@@ -157,3 +157,93 @@ echo Concat::javascript("http://www.example.com/js/", "jquery.js", "jquery.ui.js
 
 // <script src="http://www.example.com/js/jquery.js?version=0.1" type="text/javascript"></script><script src="http://www.example.com/js/jquery.ui.js?version=0.1" type="text/javascript"></script>
 ```
+
+
+后续
+---
+此项目毕竟[@eduosi](https://github.com/eduosi)是3年前写的,折腾的可能性非常低。遂fork出来顺便添加个帮助函数
+`注意` 代码不能直接使用。需要修改require_once的载入路径。
+
+```php
+
+/**
+ * 封装函数concat 使用WebServer concat模块合并静态文件请求
+ *
+ * 函数直接回显出html代码
+ *
+ * 目的：快捷生成静态文件的合并请求地址
+ * 如：
+ * <script href="//g.esc.cn/admin/aa/cheThird/??aa/bb.js,asd.js" type="text/javascript"></script>
+ *
+ * 普通调用：
+ * concat('admin/aa/cheThird/','bb.css','bb.js','asd.js'); //js css可混用加载 函数内部已经分开处理
+ * 输出：
+ * <link href="//g.esc.cn/admin/aa/cheThird/??bb.css" rel="stylesheet" type="text/css" />
+ * <script href="//g.esc.cn/admin/aa/cheThird/??bb.js,asd.js" type="text/javascript"></script>
+ *
+ *
+ *
+ * 独立配置调用：
+ * Concat::setEnable(0);
+ * Concat::setVersion(1);
+ * Concat::setVersionPrefix('50');
+ * concat('admin/aa/cheThird/','bb.css','aa/bb.js','asd.js');
+ * 输出：
+ * <link href="//g.esc.cn/admin/aa/cheThird/bb.css?50=1" rel="stylesheet" type="text/css" />
+ * <script href="//g.esc.cn/admin/aa/cheThird/aa/bb.js?50=1" type="text/javascript"></script><script href="//g.esc.cn/admin/aa/cheThird/asd.js?50=1" type="text/javascript"></script>
+ *
+ *
+ * 参数说明：
+ * 参数1：路径地址，可以不需要域名,默认取值STYLE_URL常量的域名值；若传入域名则使用传入的值。这里会把/http[s]?:/ 匹配值去掉 使用相对协议
+ * 参数2~：之后的参数就是静态文件名称，按照Nginx的concat模块的使用
+ *
+ * Concat类参考：
+ * @URL https://github.com/Hootrix/php-concat
+ * @Author Teng.Yong
+ *
+ */
+
+if (!function_exists('concat')) {
+    require_once APPPATH . 'libraries' . DIRECTORY_SEPARATOR . 'Concat.php';
+    function concat($concatParams)
+    {
+        $styleUrl  = str_replace(array('https:','http:'),'',STYLE_URL);
+        $enable = Concat::getEnable();
+        if(!isset($enable) ) Concat::setEnable(true);
+        $args = func_get_args();
+        $args[0] = ltrim($args[0],'/') ;
+        if(strpos($args[0],ltrim($styleUrl,'//')) !== false){//传入的参数1 存在当前设置的 STYLE_URL 域名 则删除协议前缀 使用相对协议
+            $args[0] = ltrim($args[0],'http:') ;
+            $args[0] = ltrim($args[0],'https:') ;
+        }else{//否则插入域名
+            if(strpos($args[0],'.') ===false ){//不是域名
+                $args[0] = $styleUrl.$args[0];
+            }else{//传入域名
+                $args[0] = ltrim($args[0],'http:');
+                $args[0] = ltrim($args[0],'https:');
+                $args[0] = ltrim($args[0],'//') ;
+                $args[0] = '//'.$args[0];
+            }
+        }
+
+        $css = array();
+        $js = array();
+        for ($i = 1;$i<count($args);$i++){
+            //判断传入的文件后缀
+            if(strrchr($args[$i], '.css') === '.css'){
+                $css []= $args[$i];
+            }else{
+                $js []= $args[$i];
+            }
+        }
+        if (!empty($css)) {
+            array_splice($css,0,0,$args[0]);
+            echo call_user_func_array("Concat::css", $css), "\n";
+        }
+        if (!empty($js)) {
+            array_splice($js,0,0,$args[0]);
+            echo call_user_func_array("Concat::js", $js), "\n";
+        }
+    };
+}
+```
