@@ -125,7 +125,7 @@
 			}else{
 				foreach($args as $j=>$arg){
 					if($j > 0){
-						$url .= '<script href="'.$baseUrl.$arg.$version.'" type="text/javascript"></script>';
+						$url .= '<script src="'.$baseUrl.$arg.$version.'" type="text/javascript"></script>';
 					}
 				}
 			}
