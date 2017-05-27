@@ -131,7 +131,7 @@
 
 		public static function js($baseUrl){
 			$args = func_get_args();
-			return call_user_func_array(array(self, "javascript"), $args);
+			return call_user_func_array(array(__CLASS__, "javascript"), $args);
 		}
 
 	}
